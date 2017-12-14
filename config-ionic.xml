@@ -69,6 +69,7 @@
 	<plugin name="cordova-plugin-statusbar" />
 	<plugin name="ionic-plugin-keyboard" />
 	<!-- ./default -->
+	<plugin name="cordova-plugin-camera" />
 	<plugin name="cordova-plugin-gpslocation" />
 	<plugin name="cordova-plugin-inappbrowser" />
 	<platform name="android">
