@@ -80,6 +80,12 @@ angular.module("aplikasi_e_absensi.controllers", [])
 			$rootScope.closeMenuPopover();
 		});
 	};
+	// TODO: indexCtrl --|-- $rootScope.mapEnable
+	if(typeof google == "undefined"){
+		$rootScope.mapEnable = false;
+	}else{
+		$rootScope.mapEnable = true;
+	}
 	$rootScope.last_edit = "-" ;
 	$scope.$on("$ionicView.afterEnter", function (){
 		var page_id = $state.current.name ;
@@ -188,6 +194,12 @@ angular.module("aplikasi_e_absensi.controllers", [])
 	$rootScope.grid80 = parseInt($rootScope.ionWidth / 80) ;
 	$rootScope.grid128 = parseInt($rootScope.ionWidth / 128) ;
 	$rootScope.grid256 = parseInt($rootScope.ionWidth / 256) ;
+	// TODO: side_menusCtrl --|-- $rootScope.mapEnable
+	if(typeof google == "undefined"){
+		$rootScope.mapEnable = false;
+	}else{
+		$rootScope.mapEnable = true;
+	}
 	$rootScope.last_edit = "-" ;
 	$scope.$on("$ionicView.afterEnter", function (){
 		var page_id = $state.current.name ;
@@ -327,6 +339,12 @@ angular.module("aplikasi_e_absensi.controllers", [])
 	$rootScope.grid80 = parseInt($rootScope.ionWidth / 80) ;
 	$rootScope.grid128 = parseInt($rootScope.ionWidth / 128) ;
 	$rootScope.grid256 = parseInt($rootScope.ionWidth / 256) ;
+	// TODO: about_usCtrl --|-- $rootScope.mapEnable
+	if(typeof google == "undefined"){
+		$rootScope.mapEnable = false;
+	}else{
+		$rootScope.mapEnable = true;
+	}
 	$rootScope.last_edit = "menu" ;
 	$scope.$on("$ionicView.afterEnter", function (){
 		var page_id = $state.current.name ;
@@ -435,7 +453,13 @@ $ionicConfig.backButton.text("");
 	$rootScope.grid80 = parseInt($rootScope.ionWidth / 80) ;
 	$rootScope.grid128 = parseInt($rootScope.ionWidth / 128) ;
 	$rootScope.grid256 = parseInt($rootScope.ionWidth / 256) ;
-	$rootScope.last_edit = "menu" ;
+	// TODO: dashboardCtrl --|-- $rootScope.mapEnable
+	if(typeof google == "undefined"){
+		$rootScope.mapEnable = false;
+	}else{
+		$rootScope.mapEnable = true;
+	}
+	$rootScope.last_edit = "page_builder" ;
 	$scope.$on("$ionicView.afterEnter", function (){
 		var page_id = $state.current.name ;
 		$rootScope.page_id = page_id.replace(".","-") ;
@@ -513,6 +537,262 @@ $ionicConfig.backButton.text("");
 			selector: ".slide-up"
 		});
 	}, 300);
+	// TODO: dashboardCtrl --|-- $scope.showAuthentication
+	$scope.showAuthentication  = function(){
+		var authPopup = $ionicPopup.show({
+			template: ' This page required login',
+			title: "Authorization",
+			subTitle: "Authorization is required",
+			scope: $scope,
+			buttons: [
+				{text:"Cancel",onTap: function(e){
+					$state.go("aplikasi_e_absensi.dashboard");
+				}},
+			],
+		}).then(function(form){
+		},function(err){
+		},function(msg){
+		});
+	};
+	
+	// set default parameter http
+	var http_params = {};
+	
+	// set HTTP Header 
+	var http_header = {
+		headers: {
+		},
+		params: http_params
+	};
+	var targetQuery = ""; //default param
+	var raplaceWithQuery = "";
+	
+	// TODO: dashboardCtrl --|-- $scope.splitArray
+	$scope.splitArray = function(items,cols,maxItem) {
+		var newItems = [];
+		if(maxItem == 0){
+			maxItem = items.length;
+		}
+		if(items){
+			for (var i=0; i < maxItem; i+=cols) {
+				newItems.push(items.slice(i, i+cols));
+			}
+		}
+		return newItems;
+	}
+	$scope.gmapOptions = {options: { scrollwheel: false }};
+	
+	var fetch_per_scroll = 1;
+	// animation loading 
+	$ionicLoading.show();
+	
+	
+	// TODO: dashboardCtrl --|-- $scope.fetchURL
+	$scope.fetchURL = "data/tables/dashboard.json";
+	// TODO: dashboardCtrl --|-- $scope.fetchURLp
+	$scope.fetchURLp = "data/tables/dashboard.json?callback=JSON_CALLBACK";
+	// TODO: dashboardCtrl --|-- $scope.hashURL
+	$scope.hashURL = md5.createHash( $scope.fetchURL.replace(targetQuery,raplaceWithQuery));
+	
+	
+	$scope.noMoreItemsAvailable = false; //readmore status
+	var lastPush = 0;
+	var data_dashboards = [];
+	
+	localforage.getItem("data_dashboards_" + $scope.hashURL, function(err, get_dashboards){
+		if(get_dashboards === null){
+			data_dashboards =[];
+		}else{
+			data_dashboards = JSON.parse(get_dashboards);
+			$scope.data_dashboards =JSON.parse( get_dashboards);
+			$scope.dashboards = [];
+			for(lastPush = 0; lastPush < 100; lastPush++) {
+				if (angular.isObject(data_dashboards[lastPush])){
+					$scope.dashboards.push(data_dashboards[lastPush]);
+				};
+			}
+			$timeout(function() {
+				$ionicLoading.hide();
+				controller_by_user();
+			},200);
+		}
+	}).then(function(value){
+	}).catch(function (err){
+	})
+	if(data_dashboards === null ){
+		data_dashboards =[];
+	}
+	if(data_dashboards.length === 0 ){
+		$timeout(function() {
+			var url_request = $scope.fetchURL.replace(targetQuery,raplaceWithQuery);
+			// overwrite HTTP Header 
+			http_header = {
+				headers: {
+				},
+				params: http_params
+			};
+			// TODO: dashboardCtrl --|-- $http.get
+			console.log("%cRetrieving JSON: %c" + url_request,"color:blue;font-size:18px","color:red;font-size:18px");
+			$http.get(url_request,http_header).then(function(response) {
+				data_dashboards = response.data;
+				console.log("%cSuccessfully","color:blue;font-size:18px");
+				console.dir(data_dashboards);
+				$scope.data_dashboards = response.data;
+				// TODO: dashboardCtrl --|---------- set:localforage
+				localforage.setItem("data_dashboards_" + $scope.hashURL, JSON.stringify(data_dashboards));
+				$scope.dashboards = [];
+				for(lastPush = 0; lastPush < 100; lastPush++) {
+					if (angular.isObject(data_dashboards[lastPush])){
+						$scope.dashboards.push(data_dashboards[lastPush]);
+					};
+				}
+			},function(response) {
+			
+				$timeout(function() {
+					var url_request = $scope.fetchURLp.replace(targetQuery,raplaceWithQuery);
+					// overwrite HTTP Header 
+					http_header = {
+						headers: {
+						},
+						params: http_params
+					};
+					console.log("%cRetrieving again: %c" + url_request,"color:blue;font-size:18px","color:red;font-size:18px");
+					// TODO: dashboardCtrl --|------ $http.jsonp
+					$http.jsonp(url_request,http_header).success(function(data){
+						data_dashboards = data;
+						$scope.data_dashboards = data;
+						$ionicLoading.hide();
+						// TODO: dashboardCtrl --|---------- set:localforage
+						localforage.setItem("data_dashboards_" + $scope.hashURL,JSON.stringify(data_dashboards));
+						controller_by_user();
+						$scope.dashboards = [];
+						for(lastPush = 0; lastPush < 100; lastPush++) {
+							if (angular.isObject(data_dashboards[lastPush])){
+								$scope.dashboards.push(data_dashboards[lastPush]);
+							};
+						}
+					}).error(function(data){
+					if(response.status ===401){
+						// TODO: dashboardCtrl --|------------ error:Unauthorized
+						$scope.showAuthentication();
+					}else{
+						// TODO: dashboardCtrl --|------------ error:Message
+						var data = { statusText:response.statusText, status:response.status };
+						var alertPopup = $ionicPopup.alert({
+							title: "Network Error" + " (" + data.status + ")",
+							template: "An error occurred while collecting data.",
+						});
+						$timeout(function() {
+							alertPopup.close();
+						}, 2000);
+					}
+					});
+				}, 200);
+		}).finally(function() {
+			$scope.$broadcast("scroll.refreshComplete");
+			// event done, hidden animation loading
+			$timeout(function() {
+				$ionicLoading.hide();
+				controller_by_user();
+			}, 200);
+		});
+	
+		}, 200);
+	}
+	
+	
+	// TODO: dashboardCtrl --|-- $scope.doRefresh
+	$scope.doRefresh = function(){
+		var url_request = $scope.fetchURL.replace(targetQuery,raplaceWithQuery);
+		// retry retrieving data
+		// overwrite http_header 
+		http_header = {
+			headers: {
+			},
+			params: http_params
+		};
+		// TODO: dashboardCtrl --|------ $http.get
+		$http.get(url_request,http_header).then(function(response) {
+			data_dashboards = response.data;
+			$scope.data_dashboards = response.data;
+			// TODO: dashboardCtrl --|---------- set:localforage
+			localforage.setItem("data_dashboards_" + $scope.hashURL,JSON.stringify(data_dashboards));
+			$scope.dashboards = [];
+			for(lastPush = 0; lastPush < 100; lastPush++) {
+				if (angular.isObject(data_dashboards[lastPush])){
+					$scope.dashboards.push(data_dashboards[lastPush]);
+				};
+			}
+		},function(response){
+			
+		// retrieving data with jsonp
+			$timeout(function() {
+			var url_request =$scope.fetchURLp.replace(targetQuery,raplaceWithQuery);
+				// overwrite http_header 
+				http_header = {
+					headers: {
+					},
+					params: http_params
+				};
+				// TODO: dashboardCtrl --|---------- $http.jsonp
+				$http.jsonp(url_request,http_header).success(function(data){
+					data_dashboards = data;
+					$scope.data_dashboards = data;
+					$ionicLoading.hide();
+					controller_by_user();
+					// TODO: dashboardCtrl --|---------- set:localforage
+					localforage.setItem("data_dashboards_"+ $scope.hashURL,JSON.stringify(data_dashboards));
+					$scope.dashboards = [];
+					for(lastPush = 0; lastPush < 100; lastPush++) {
+						if (angular.isObject(data_dashboards[lastPush])){
+							$scope.dashboards.push(data_dashboards[lastPush]);
+						};
+					}
+				}).error(function(resp){
+					if(response.status ===401){
+					// TODO: dashboardCtrl --|------------ error:Unauthorized
+					$scope.showAuthentication();
+					}else{
+						// TODO: dashboardCtrl --|------------ error:Message
+						var data = { statusText:response.statusText, status:response.status };
+						var alertPopup = $ionicPopup.alert({
+							title: "Network Error" + " (" + data.status + ")",
+							template: "An error occurred while collecting data.",
+						});
+					};
+				});
+			}, 200);
+		}).finally(function() {
+			$scope.$broadcast("scroll.refreshComplete");
+			// event done, hidden animation loading
+			$timeout(function() {
+				$ionicLoading.hide();
+				controller_by_user();
+			}, 500);
+		});
+	
+	};
+	if (data_dashboards === null){
+		data_dashboards = [];
+	};
+	// animation readmore
+	var fetchItems = function() {
+		for(var z=0;z<fetch_per_scroll;z++){
+			if (angular.isObject(data_dashboards[lastPush])){
+				$scope.dashboards.push(data_dashboards[lastPush]);
+				lastPush++;
+			}else{;
+				$scope.noMoreItemsAvailable = true;
+			}
+		}
+		$scope.$broadcast("scroll.infiniteScrollComplete");
+	};
+	
+	// event readmore
+	$scope.onInfinite = function() {
+		$timeout(fetchItems, 500);
+	};
+	
 	// code 
 
 	// TODO: dashboardCtrl --|-- controller_by_user
@@ -520,7 +800,30 @@ $ionicConfig.backButton.text("");
 	function controller_by_user(){
 		try {
 			
-$ionicConfig.backButton.text("");			
+  
+$scope.dashboard = [];
+$ionicModal.fromTemplateUrl("dashboard-single.html",{scope: $scope,animation:"slide-in-up"}).then(function(modal){
+    $scope.modal = modal;
+});
+$scope.openModal = function() {
+    $scope.dashboard = [];
+    var itemID = this.id;
+	for (var i = 0; i < data_dashboards.length; i++) {
+		if((data_dashboards[i].id ===  parseInt(itemID)) || (data_dashboards[i].id === itemID.toString())) {
+			$scope.dashboard = data_dashboards[i] ;
+		}
+	}    
+    $scope.modal.show();
+};
+$scope.closeModal = function() {
+    $scope.modal.hide();
+};
+$scope.$on("$destroy", function() {
+    $scope.modal.remove();
+});
+
+$ionicConfig.backButton.text("");
+			
 		} catch(e){
 			console.log("%cerror: %cPage: `dashboard` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
 			console.dir(e);
@@ -528,9 +831,6 @@ $ionicConfig.backButton.text("");
 	}
 	$scope.rating = {};
 	$scope.rating.max = 5;
-	
-	// animation ink (ionic-material)
-	ionicMaterialInk.displayEffect();
 	controller_by_user();
 })
 
@@ -543,6 +843,12 @@ $ionicConfig.backButton.text("");
 	$rootScope.grid80 = parseInt($rootScope.ionWidth / 80) ;
 	$rootScope.grid128 = parseInt($rootScope.ionWidth / 128) ;
 	$rootScope.grid256 = parseInt($rootScope.ionWidth / 256) ;
+	// TODO: slide_tab_menuCtrl --|-- $rootScope.mapEnable
+	if(typeof google == "undefined"){
+		$rootScope.mapEnable = false;
+	}else{
+		$rootScope.mapEnable = true;
+	}
 	$rootScope.last_edit = "menu" ;
 	$scope.$on("$ionicView.afterEnter", function (){
 		var page_id = $state.current.name ;

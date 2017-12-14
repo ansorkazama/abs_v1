@@ -1,4 +1,4 @@
-angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-material","ion-datetime-picker","ionic.rating","utf8-base64","angular-md5","chart.js","pascalprecht.translate","aplikasi_e_absensi.controllers", "aplikasi_e_absensi.services"])
+angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-material","ion-datetime-picker","ionic.rating","utf8-base64","angular-md5","chart.js","pascalprecht.translate","ngMap","aplikasi_e_absensi.controllers", "aplikasi_e_absensi.services"])
 	.run(function($ionicPlatform,$window,$interval,$timeout,$ionicHistory,$ionicPopup,$state,$rootScope){
 
 		$rootScope.appName = "Aplikasi E-Absensi" ;
@@ -17,6 +17,14 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 			if(window.StatusBar) {
 				StatusBar.styleDefault();
 			}
+
+			localforage.config({
+				driver : [localforage.WEBSQL,localforage.INDEXEDDB,localforage.LOCALSTORAGE],
+				name : "aplikasi_e_absensi",
+				storeName : "aplikasi_e_absensi",
+				description : "The offline datastore for Aplikasi E-Absensi app"
+			});
+
 
 
 		});
@@ -166,6 +174,7 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 
 	.state("aplikasi_e_absensi.dashboard", {
 		url: "/dashboard",
+		cache:false,
 		views: {
 			"aplikasi_e_absensi-side_menus" : {
 						templateUrl:"templates/aplikasi_e_absensi-dashboard.html",
