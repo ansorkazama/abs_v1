@@ -459,7 +459,7 @@ $ionicConfig.backButton.text("");
 	}else{
 		$rootScope.mapEnable = true;
 	}
-	$rootScope.last_edit = "page_builder" ;
+	$rootScope.last_edit = "menu" ;
 	$scope.$on("$ionicView.afterEnter", function (){
 		var page_id = $state.current.name ;
 		$rootScope.page_id = page_id.replace(".","-") ;
@@ -800,17 +800,384 @@ $ionicConfig.backButton.text("");
 	function controller_by_user(){
 		try {
 			
+$ionicConfig.backButton.text("");			
+		} catch(e){
+			console.log("%cerror: %cPage: `dashboard` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
+			console.dir(e);
+		}
+	}
+	$scope.rating = {};
+	$scope.rating.max = 5;
+	controller_by_user();
+})
+
+// TODO: mapsCtrl --|-- 
+.controller("mapsCtrl", function($ionicConfig,$scope,$rootScope,$state,$location,$ionicScrollDelegate,$ionicListDelegate,$http,$httpParamSerializer,$stateParams,$timeout,$interval,$ionicLoading,$ionicPopup,$ionicPopover,$ionicActionSheet,$ionicSlideBoxDelegate,$ionicHistory,ionicMaterialInk,ionicMaterialMotion,$window,$ionicModal,base64,md5,$document,$sce,$ionicGesture,$translate){
+	
+	$rootScope.headerExists = true;
+	$rootScope.ionWidth = $document[0].body.querySelector(".view-container").offsetWidth || 412;
+	$rootScope.grid64 = parseInt($rootScope.ionWidth / 64) ;
+	$rootScope.grid80 = parseInt($rootScope.ionWidth / 80) ;
+	$rootScope.grid128 = parseInt($rootScope.ionWidth / 128) ;
+	$rootScope.grid256 = parseInt($rootScope.ionWidth / 256) ;
+	// TODO: mapsCtrl --|-- $rootScope.mapEnable
+	if(typeof google == "undefined"){
+		$rootScope.mapEnable = false;
+	}else{
+		$rootScope.mapEnable = true;
+	}
+	$rootScope.last_edit = "page_builder" ;
+	$scope.$on("$ionicView.afterEnter", function (){
+		var page_id = $state.current.name ;
+		$rootScope.page_id = page_id.replace(".","-") ;
+	});
+	if($rootScope.headerShrink == true){
+		$scope.$on("$ionicView.enter", function(){
+			$scope.scrollTop();
+		});
+	};
+	// TODO: mapsCtrl --|-- $scope.scrollTop
+	$rootScope.scrollTop = function(){
+		$timeout(function(){
+			$ionicScrollDelegate.$getByHandle("top").scrollTop();
+		},100);
+	};
+	// TODO: mapsCtrl --|-- $scope.openURL
+	// open external browser 
+	$scope.openURL = function($url){
+		window.open($url,"_system","location=yes");
+	};
+	// TODO: mapsCtrl --|-- $scope.openAppBrowser
+	// open AppBrowser
+	$scope.openAppBrowser = function($url){
+		var appBrowser = window.open($url,"_blank","hardwareback=Done");
+		appBrowser.addEventListener("loadstart",function(){
+			appBrowser.insertCSS({
+				code: "body{background:#100;color:#100;font-size:1px;}body:after{content:'loading...';color:#fff;font-size:72px;position:absolute;bottom:50%;left:0;right:0; text-align: center; vertical-align: middle;}"
+			});
+		});
+	
+		appWebview.addEventListener("loaderror",function(){
+			window.location = "retry.html";
+		});
+	};
+	
+	
+	// TODO: mapsCtrl --|-- $scope.openWebView
+	// open WebView
+	$scope.openWebView = function($url){
+		var appWebview = window.open($url,"_blank","location=no");
+		appWebview.addEventListener("loadstart",function(){
+			appWebview.insertCSS({
+				code: "body{background:#100;color:#100;font-size:1px;}body:after{content:'loading...';color:#fff;font-size:72px;position:absolute;bottom:50%;left:0;right:0; text-align: center; vertical-align: middle;}"
+			});
+		});
+	
+		appWebview.addEventListener("loaderror",function(){
+			window.location = "retry.html";
+		});
+	};
+	
+	
+	// TODO: mapsCtrl --|-- $scope.toggleGroup
+	$scope.toggleGroup = function(group) {
+		if ($scope.isGroupShown(group)) {
+			$scope.shownGroup = null;
+		} else {
+			$scope.shownGroup = group;
+		}
+	};
+	
+	$scope.isGroupShown = function(group) {
+		return $scope.shownGroup === group;
+	};
+	
+	// TODO: mapsCtrl --|-- $scope.redirect
+	// redirect
+	$scope.redirect = function($url){
+		$window.location.href = $url;
+	};
+	
+	// Set Motion
+	$timeout(function(){
+		ionicMaterialMotion.slideUp({
+			selector: ".slide-up"
+		});
+	}, 300);
+	// TODO: mapsCtrl --|-- $scope.showAuthentication
+	$scope.showAuthentication  = function(){
+		var authPopup = $ionicPopup.show({
+			template: ' This page required login',
+			title: "Authorization",
+			subTitle: "Authorization is required",
+			scope: $scope,
+			buttons: [
+				{text:"Cancel",onTap: function(e){
+					$state.go("aplikasi_e_absensi.dashboard");
+				}},
+			],
+		}).then(function(form){
+		},function(err){
+		},function(msg){
+		});
+	};
+	
+	// set default parameter http
+	var http_params = {};
+	
+	// set HTTP Header 
+	var http_header = {
+		headers: {
+		},
+		params: http_params
+	};
+	var targetQuery = ""; //default param
+	var raplaceWithQuery = "";
+	
+	// TODO: mapsCtrl --|-- $scope.splitArray
+	$scope.splitArray = function(items,cols,maxItem) {
+		var newItems = [];
+		if(maxItem == 0){
+			maxItem = items.length;
+		}
+		if(items){
+			for (var i=0; i < maxItem; i+=cols) {
+				newItems.push(items.slice(i, i+cols));
+			}
+		}
+		return newItems;
+	}
+	$scope.gmapOptions = {options: { scrollwheel: false }};
+	
+	var fetch_per_scroll = 1;
+	// animation loading 
+	$ionicLoading.show();
+	
+	
+	// TODO: mapsCtrl --|-- $scope.fetchURL
+	$scope.fetchURL = "data/tables/maps.json";
+	// TODO: mapsCtrl --|-- $scope.fetchURLp
+	$scope.fetchURLp = "data/tables/maps.json?callback=JSON_CALLBACK";
+	// TODO: mapsCtrl --|-- $scope.hashURL
+	$scope.hashURL = md5.createHash( $scope.fetchURL.replace(targetQuery,raplaceWithQuery));
+	
+	
+	$scope.noMoreItemsAvailable = false; //readmore status
+	var lastPush = 0;
+	var data_mapss = [];
+	
+	localforage.getItem("data_mapss_" + $scope.hashURL, function(err, get_mapss){
+		if(get_mapss === null){
+			data_mapss =[];
+		}else{
+			data_mapss = JSON.parse(get_mapss);
+			$scope.data_mapss =JSON.parse( get_mapss);
+			$scope.mapss = [];
+			for(lastPush = 0; lastPush < 100; lastPush++) {
+				if (angular.isObject(data_mapss[lastPush])){
+					$scope.mapss.push(data_mapss[lastPush]);
+				};
+			}
+			$timeout(function() {
+				$ionicLoading.hide();
+				controller_by_user();
+			},200);
+		}
+	}).then(function(value){
+	}).catch(function (err){
+	})
+	if(data_mapss === null ){
+		data_mapss =[];
+	}
+	if(data_mapss.length === 0 ){
+		$timeout(function() {
+			var url_request = $scope.fetchURL.replace(targetQuery,raplaceWithQuery);
+			// overwrite HTTP Header 
+			http_header = {
+				headers: {
+				},
+				params: http_params
+			};
+			// TODO: mapsCtrl --|-- $http.get
+			console.log("%cRetrieving JSON: %c" + url_request,"color:blue;font-size:18px","color:red;font-size:18px");
+			$http.get(url_request,http_header).then(function(response) {
+				data_mapss = response.data;
+				console.log("%cSuccessfully","color:blue;font-size:18px");
+				console.dir(data_mapss);
+				$scope.data_mapss = response.data;
+				// TODO: mapsCtrl --|---------- set:localforage
+				localforage.setItem("data_mapss_" + $scope.hashURL, JSON.stringify(data_mapss));
+				$scope.mapss = [];
+				for(lastPush = 0; lastPush < 100; lastPush++) {
+					if (angular.isObject(data_mapss[lastPush])){
+						$scope.mapss.push(data_mapss[lastPush]);
+					};
+				}
+			},function(response) {
+			
+				$timeout(function() {
+					var url_request = $scope.fetchURLp.replace(targetQuery,raplaceWithQuery);
+					// overwrite HTTP Header 
+					http_header = {
+						headers: {
+						},
+						params: http_params
+					};
+					console.log("%cRetrieving again: %c" + url_request,"color:blue;font-size:18px","color:red;font-size:18px");
+					// TODO: mapsCtrl --|------ $http.jsonp
+					$http.jsonp(url_request,http_header).success(function(data){
+						data_mapss = data;
+						$scope.data_mapss = data;
+						$ionicLoading.hide();
+						// TODO: mapsCtrl --|---------- set:localforage
+						localforage.setItem("data_mapss_" + $scope.hashURL,JSON.stringify(data_mapss));
+						controller_by_user();
+						$scope.mapss = [];
+						for(lastPush = 0; lastPush < 100; lastPush++) {
+							if (angular.isObject(data_mapss[lastPush])){
+								$scope.mapss.push(data_mapss[lastPush]);
+							};
+						}
+					}).error(function(data){
+					if(response.status ===401){
+						// TODO: mapsCtrl --|------------ error:Unauthorized
+						$scope.showAuthentication();
+					}else{
+						// TODO: mapsCtrl --|------------ error:Message
+						var data = { statusText:response.statusText, status:response.status };
+						var alertPopup = $ionicPopup.alert({
+							title: "Network Error" + " (" + data.status + ")",
+							template: "An error occurred while collecting data.",
+						});
+						$timeout(function() {
+							alertPopup.close();
+						}, 2000);
+					}
+					});
+				}, 200);
+		}).finally(function() {
+			$scope.$broadcast("scroll.refreshComplete");
+			// event done, hidden animation loading
+			$timeout(function() {
+				$ionicLoading.hide();
+				controller_by_user();
+			}, 200);
+		});
+	
+		}, 200);
+	}
+	
+	
+	// TODO: mapsCtrl --|-- $scope.doRefresh
+	$scope.doRefresh = function(){
+		var url_request = $scope.fetchURL.replace(targetQuery,raplaceWithQuery);
+		// retry retrieving data
+		// overwrite http_header 
+		http_header = {
+			headers: {
+			},
+			params: http_params
+		};
+		// TODO: mapsCtrl --|------ $http.get
+		$http.get(url_request,http_header).then(function(response) {
+			data_mapss = response.data;
+			$scope.data_mapss = response.data;
+			// TODO: mapsCtrl --|---------- set:localforage
+			localforage.setItem("data_mapss_" + $scope.hashURL,JSON.stringify(data_mapss));
+			$scope.mapss = [];
+			for(lastPush = 0; lastPush < 100; lastPush++) {
+				if (angular.isObject(data_mapss[lastPush])){
+					$scope.mapss.push(data_mapss[lastPush]);
+				};
+			}
+		},function(response){
+			
+		// retrieving data with jsonp
+			$timeout(function() {
+			var url_request =$scope.fetchURLp.replace(targetQuery,raplaceWithQuery);
+				// overwrite http_header 
+				http_header = {
+					headers: {
+					},
+					params: http_params
+				};
+				// TODO: mapsCtrl --|---------- $http.jsonp
+				$http.jsonp(url_request,http_header).success(function(data){
+					data_mapss = data;
+					$scope.data_mapss = data;
+					$ionicLoading.hide();
+					controller_by_user();
+					// TODO: mapsCtrl --|---------- set:localforage
+					localforage.setItem("data_mapss_"+ $scope.hashURL,JSON.stringify(data_mapss));
+					$scope.mapss = [];
+					for(lastPush = 0; lastPush < 100; lastPush++) {
+						if (angular.isObject(data_mapss[lastPush])){
+							$scope.mapss.push(data_mapss[lastPush]);
+						};
+					}
+				}).error(function(resp){
+					if(response.status ===401){
+					// TODO: mapsCtrl --|------------ error:Unauthorized
+					$scope.showAuthentication();
+					}else{
+						// TODO: mapsCtrl --|------------ error:Message
+						var data = { statusText:response.statusText, status:response.status };
+						var alertPopup = $ionicPopup.alert({
+							title: "Network Error" + " (" + data.status + ")",
+							template: "An error occurred while collecting data.",
+						});
+					};
+				});
+			}, 200);
+		}).finally(function() {
+			$scope.$broadcast("scroll.refreshComplete");
+			// event done, hidden animation loading
+			$timeout(function() {
+				$ionicLoading.hide();
+				controller_by_user();
+			}, 500);
+		});
+	
+	};
+	if (data_mapss === null){
+		data_mapss = [];
+	};
+	// animation readmore
+	var fetchItems = function() {
+		for(var z=0;z<fetch_per_scroll;z++){
+			if (angular.isObject(data_mapss[lastPush])){
+				$scope.mapss.push(data_mapss[lastPush]);
+				lastPush++;
+			}else{;
+				$scope.noMoreItemsAvailable = true;
+			}
+		}
+		$scope.$broadcast("scroll.infiniteScrollComplete");
+	};
+	
+	// event readmore
+	$scope.onInfinite = function() {
+		$timeout(fetchItems, 500);
+	};
+	
+	// code 
+
+	// TODO: mapsCtrl --|-- controller_by_user
+	// controller by user 
+	function controller_by_user(){
+		try {
+			
   
-$scope.dashboard = [];
-$ionicModal.fromTemplateUrl("dashboard-single.html",{scope: $scope,animation:"slide-in-up"}).then(function(modal){
+$scope.maps = [];
+$ionicModal.fromTemplateUrl("maps-single.html",{scope: $scope,animation:"slide-in-up"}).then(function(modal){
     $scope.modal = modal;
 });
 $scope.openModal = function() {
-    $scope.dashboard = [];
+    $scope.maps = [];
     var itemID = this.id;
-	for (var i = 0; i < data_dashboards.length; i++) {
-		if((data_dashboards[i].id ===  parseInt(itemID)) || (data_dashboards[i].id === itemID.toString())) {
-			$scope.dashboard = data_dashboards[i] ;
+	for (var i = 0; i < data_mapss.length; i++) {
+		if((data_mapss[i].id ===  parseInt(itemID)) || (data_mapss[i].id === itemID.toString())) {
+			$scope.maps = data_mapss[i] ;
 		}
 	}    
     $scope.modal.show();
@@ -825,7 +1192,7 @@ $scope.$on("$destroy", function() {
 $ionicConfig.backButton.text("");
 			
 		} catch(e){
-			console.log("%cerror: %cPage: `dashboard` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
+			console.log("%cerror: %cPage: `maps` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
 			console.dir(e);
 		}
 	}

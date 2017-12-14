@@ -69,7 +69,7 @@
 	<plugin name="cordova-plugin-statusbar" />
 	<plugin name="ionic-plugin-keyboard" />
 	<!-- ./default -->
-	<plugin name="cordova-plugin-geolocation" />
+	<plugin name="cordova-plugin-gpslocation" />
 	<plugin name="cordova-plugin-inappbrowser" />
 	<platform name="android">
 		<!-- splash and icon for build using ionic/cordova -->

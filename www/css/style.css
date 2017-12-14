@@ -213,12 +213,20 @@ ul.rating li i{color:#FFCC00}
 /** menu **/
 
 /** option page **/
-#page-dashboard{background: url("../data/images/background/transparent.png") no-repeat left top fixed;background-size: cover;width:100%;height:100%;background-repeat:no-repeat;}
+#page-dashboard{background: url("../data/images/background/bg7.jpg") no-repeat left top fixed;background-size: cover;width:100%;height:100%;background-repeat:no-repeat;}
+#page-maps{background: url("../data/images/background/bg11.jpg") no-repeat left top fixed;background-size: cover;width:100%;height:100%;background-repeat:no-repeat;}
 /** page dashboard **/
 
-#page-dashboard .gmapmarker-map {position: absolute;width:100%;height: 100%;margin: 0;padding:0;z-index:-1}
-#page-dashboard .gmapmarker-search {position: fixed;top:40px;z-index: 999;width:100%;background-color:transparent;opacity:1;}
-#page-dashboard .item.item-input {background-color:#ffffff;opacity:0.8;}    
+.dashboard-panel .row .col-33 {text-decoration-line: unset;text-align: center;padding: 22px 20px 10px 20px;border:0;}
+.dashboard-panel .row .col-33 i {font-size: 28px;margin-bottom: 2px;}
+.dashboard-panel a:link, .dashboard-panel a:visited{text-decoration: none;}
+.dashboard-panel .row .col-33 p {font-size: 12px;font-weight:500;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}             
+            
+/** page maps **/
+
+#page-maps .gmapmarker-map {position: absolute;width:100%;height: 100%;margin: 0;padding:0;z-index:-1}
+#page-maps .gmapmarker-search {position: fixed;top:40px;z-index: 999;width:100%;background-color:transparent;opacity:1;}
+#page-maps .item.item-input {background-color:#ffffff;opacity:0.8;}    
     
 /** page slide_tab_menu **/
 

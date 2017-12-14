@@ -186,5 +186,18 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 		}
 	})
 
+	.state("aplikasi_e_absensi.maps", {
+		url: "/maps",
+		views: {
+			"aplikasi_e_absensi-side_menus" : {
+						templateUrl:"templates/aplikasi_e_absensi-maps.html",
+						controller: "mapsCtrl"
+					},
+			"fabButtonUp" : {
+						template: '',
+					},
+		}
+	})
+
 	$urlRouterProvider.otherwise("/aplikasi_e_absensi/dashboard");
 });
