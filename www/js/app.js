@@ -2,7 +2,7 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 	.run(function($ionicPlatform,$window,$interval,$timeout,$ionicHistory,$ionicPopup,$state,$rootScope){
 
 		$rootScope.appName = "Aplikasi E-Absensi" ;
-		$rootScope.appLogo = "data/images/header/logo.png" ;
+		$rootScope.appLogo = "data/images/header/logo_diskominfo_sumatera_utara.png" ;
 		$rootScope.appVersion = "1.0" ;
 		$rootScope.headerShrink = false ;
 
@@ -161,6 +161,7 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 
 	.state("aplikasi_e_absensi.about_us", {
 		url: "/about_us",
+		cache:false,
 		views: {
 			"aplikasi_e_absensi-side_menus" : {
 						templateUrl:"templates/aplikasi_e_absensi-about_us.html",

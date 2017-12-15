@@ -13,10 +13,11 @@
 		<ion-nav-view animation="none" name="aplikasi_e_absensi-side_menus"></ion-nav-view>
 	</ion-side-menu-content>
 	<ion-side-menu side="left">
-		<ion-header-bar class="bar-dark  ">
-			<h1 class="title"><span ng-bind-html="appName | strHTML"></span></h1>
+		<ion-header-bar class="text-center expanded dark-bg">
+			<img ng-src="{{ appLogo | trustUrl }}" class="avatar motion spin fade" />
+			<div class="menu-bottom"><span ng-bind-html="appName | strHTML"></span><br/></div>
 		</ion-header-bar>
-		<ion-content class="light-bg positive-900">
+		<ion-content class="has-expanded-header light-bg positive-900">
 			<ion-list class="list" >
 				<ion-item  class="menu-dashboard item-sidebar item item-icon-left text-left dark-ink" nav-clear="" menu-close="" ui-sref="aplikasi_e_absensi.dashboard">
 					<i class="icon ion-ios-home"></i> {{ "Dashboard" | translate }}
