@@ -1,2 +1,2 @@
-# Aplikasi E-Absensi
+# E-Absensi Diskominfo
 

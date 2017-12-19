@@ -1,6 +1,6 @@
 
                 {
-                    "name": "aplikasieabsensi",
-                    "app_id": "com.ansorkazama.diskominfosumut.aplikasieabsensi",
+                    "name": "eabsensidiskominfo",
+                    "app_id": "com.ansorkazama.diskominfoprofsu.eabsensidiskominfo",
                     "type": "ionic1"
                 }

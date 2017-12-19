@@ -1,6 +1,21 @@
-angular.module("aplikasi_e_absensi.services", [])
+angular.module("e_absensi_diskominfo.services", [])
 // TODO: --|---- directive
 	
+// TODO: --|-------- sound-touch
+.directive("soundTouch", function(){
+	/** required: cordova-plugin-velda-devicefeedback **/
+	return {
+			controller: function($scope, $element, $attrs){
+			$element.bind("touchend", onTouchEnd);
+			function onTouchEnd(event)
+			{
+				if (window.plugins && window.plugins.deviceFeedback){
+					window.plugins.deviceFeedback.acoustic();
+				}
+			};
+		}
+	};
+})
 	
 // TODO: --|-------- pdf-reader
 .directive("pdfReader", [ "$window", function($window){

@@ -1,7 +1,7 @@
-angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-material","ion-datetime-picker","ionic.rating","utf8-base64","angular-md5","chart.js","pascalprecht.translate","ngMap","aplikasi_e_absensi.controllers", "aplikasi_e_absensi.services"])
+angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-material","ion-datetime-picker","ionic.rating","utf8-base64","angular-md5","chart.js","pascalprecht.translate","e_absensi_diskominfo.controllers", "e_absensi_diskominfo.services"])
 	.run(function($ionicPlatform,$window,$interval,$timeout,$ionicHistory,$ionicPopup,$state,$rootScope){
 
-		$rootScope.appName = "Aplikasi E-Absensi" ;
+		$rootScope.appName = "E-Absensi" ;
 		$rootScope.appLogo = "data/images/header/logo_diskominfo_sumatera_utara.png" ;
 		$rootScope.appVersion = "1.0" ;
 		$rootScope.headerShrink = false ;
@@ -18,29 +18,13 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 				StatusBar.styleDefault();
 			}
 
-			localforage.config({
-				driver : [localforage.WEBSQL,localforage.INDEXEDDB,localforage.LOCALSTORAGE],
-				name : "aplikasi_e_absensi",
-				storeName : "aplikasi_e_absensi",
-				description : "The offline datastore for Aplikasi E-Absensi app"
-			});
-
-
 
 		});
 		$ionicPlatform.registerBackButtonAction(function (e){
 			if($ionicHistory.backView()){
 				$ionicHistory.goBack();
 			}else{
-				var confirmPopup = $ionicPopup.confirm({
-					title: "Confirm Exit",
-					template: "Are you sure you want to exit?"
-				});
-				confirmPopup.then(function (close){
-					if(close){
-						ionic.Platform.exitApp();
-					}
-				});
+				$state.go("e_absensi_diskominfo.dashboard");
 			}
 			e.preventDefault();
 			return false;
@@ -131,7 +115,7 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 
 
 .config(["$translateProvider", function ($translateProvider){
-	$translateProvider.preferredLanguage("en-us");
+	$translateProvider.preferredLanguage("id-id");
 	$translateProvider.useStaticFilesLoader({
 		prefix: "translations/",
 		suffix: ".json"
@@ -146,25 +130,24 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 			"self",
 			new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$'),
 			new RegExp('^(http[s]?):\/\/(w{3}.)?w3schools\.com/.+$'),
-			new RegExp('^(http[s]?):\/\/(w{3}.)?maps\.googleapis\.com/.+$'),
+			new RegExp('^(http[s]?):\/\/(w{3}.)?https10\.114\.110\.10/.+$'),
 		]);
 	}catch(err){
 		console.log("%cerror: %cdomain whitelist","color:blue;font-size:16px;","color:red;font-size:16px;");
 	}
 	$stateProvider
-	.state("aplikasi_e_absensi",{
-		url: "/aplikasi_e_absensi",
+	.state("e_absensi_diskominfo",{
+		url: "/e_absensi_diskominfo",
 			abstract: true,
-			templateUrl: "templates/aplikasi_e_absensi-side_menus.html",
+			templateUrl: "templates/e_absensi_diskominfo-side_menus.html",
 			controller: "side_menusCtrl",
 	})
 
-	.state("aplikasi_e_absensi.about_us", {
+	.state("e_absensi_diskominfo.about_us", {
 		url: "/about_us",
-		cache:false,
 		views: {
-			"aplikasi_e_absensi-side_menus" : {
-						templateUrl:"templates/aplikasi_e_absensi-about_us.html",
+			"e_absensi_diskominfo-side_menus" : {
+						templateUrl:"templates/e_absensi_diskominfo-about_us.html",
 						controller: "about_usCtrl"
 					},
 			"fabButtonUp" : {
@@ -173,12 +156,12 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 		}
 	})
 
-	.state("aplikasi_e_absensi.dashboard", {
+	.state("e_absensi_diskominfo.dashboard", {
 		url: "/dashboard",
-		cache:false,
+		cache:true,
 		views: {
-			"aplikasi_e_absensi-side_menus" : {
-						templateUrl:"templates/aplikasi_e_absensi-dashboard.html",
+			"e_absensi_diskominfo-side_menus" : {
+						templateUrl:"templates/e_absensi_diskominfo-dashboard.html",
 						controller: "dashboardCtrl"
 					},
 			"fabButtonUp" : {
@@ -187,11 +170,11 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 		}
 	})
 
-	.state("aplikasi_e_absensi.maps", {
+	.state("e_absensi_diskominfo.maps", {
 		url: "/maps",
 		views: {
-			"aplikasi_e_absensi-side_menus" : {
-						templateUrl:"templates/aplikasi_e_absensi-maps.html",
+			"e_absensi_diskominfo-side_menus" : {
+						templateUrl:"templates/e_absensi_diskominfo-maps.html",
 						controller: "mapsCtrl"
 					},
 			"fabButtonUp" : {
@@ -200,5 +183,5 @@ angular.module("aplikasi_e_absensi", ["ngCordova","ionic","ionMdInput","ionic-ma
 		}
 	})
 
-	$urlRouterProvider.otherwise("/aplikasi_e_absensi/dashboard");
+	$urlRouterProvider.otherwise("/e_absensi_diskominfo/dashboard");
 });
