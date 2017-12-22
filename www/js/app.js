@@ -3,7 +3,7 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 
 		$rootScope.appName = "E-Absensi" ;
 		$rootScope.appLogo = "data/images/header/logo_diskominfo_sumatera_utara.png" ;
-		$rootScope.appVersion = "1.0" ;
+		$rootScope.appVersion = "1.1" ;
 		$rootScope.headerShrink = false ;
 
 		$ionicPlatform.ready(function() {
@@ -24,7 +24,7 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 			if($ionicHistory.backView()){
 				$ionicHistory.goBack();
 			}else{
-				$state.go("e_absensi_diskominfo.dashboard");
+				$state.go("e_absensi_diskominfo.home");
 			}
 			e.preventDefault();
 			return false;
@@ -131,6 +131,7 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 			new RegExp('^(http[s]?):\/\/(w{3}.)?youtube\.com/.+$'),
 			new RegExp('^(http[s]?):\/\/(w{3}.)?w3schools\.com/.+$'),
 			new RegExp('^(http[s]?):\/\/(w{3}.)?https10\.114\.110\.10/.+$'),
+			new RegExp('^(http[s]?):\/\/(w{3}.)?maps\.googleapis\.com/.+$'),
 		]);
 	}catch(err){
 		console.log("%cerror: %cdomain whitelist","color:blue;font-size:16px;","color:red;font-size:16px;");
@@ -145,6 +146,7 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 
 	.state("e_absensi_diskominfo.about_us", {
 		url: "/about_us",
+		cache:true,
 		views: {
 			"e_absensi_diskominfo-side_menus" : {
 						templateUrl:"templates/e_absensi_diskominfo-about_us.html",
@@ -156,13 +158,13 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 		}
 	})
 
-	.state("e_absensi_diskominfo.dashboard", {
-		url: "/dashboard",
+	.state("e_absensi_diskominfo.bantuan", {
+		url: "/bantuan",
 		cache:true,
 		views: {
 			"e_absensi_diskominfo-side_menus" : {
-						templateUrl:"templates/e_absensi_diskominfo-dashboard.html",
-						controller: "dashboardCtrl"
+						templateUrl:"templates/e_absensi_diskominfo-bantuan.html",
+						controller: "bantuanCtrl"
 					},
 			"fabButtonUp" : {
 						template: '',
@@ -170,12 +172,13 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 		}
 	})
 
-	.state("e_absensi_diskominfo.maps", {
-		url: "/maps",
+	.state("e_absensi_diskominfo.home", {
+		url: "/home",
+		cache:false,
 		views: {
 			"e_absensi_diskominfo-side_menus" : {
-						templateUrl:"templates/e_absensi_diskominfo-maps.html",
-						controller: "mapsCtrl"
+						templateUrl:"templates/e_absensi_diskominfo-home.html",
+						controller: "homeCtrl"
 					},
 			"fabButtonUp" : {
 						template: '',
@@ -183,5 +186,5 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 		}
 	})
 
-	$urlRouterProvider.otherwise("/e_absensi_diskominfo/dashboard");
+	$urlRouterProvider.otherwise("/e_absensi_diskominfo/home");
 });

@@ -72,9 +72,9 @@ angular.module("e_absensi_diskominfo.controllers", [])
 					for(var e = 0; e < keys.length ; e++) {
 						localforage.setItem(keys[e],[]);
 					}
-					$state.go("e_absensi_diskominfo.dashboard");
+					$state.go("e_absensi_diskominfo.home");
 				}).catch(function(err) {
-					$state.go("e_absensi_diskominfo.dashboard");
+					$state.go("e_absensi_diskominfo.home");
 				});
 			}
 			$rootScope.closeMenuPopover();
@@ -272,11 +272,14 @@ angular.module("e_absensi_diskominfo.controllers", [])
 	popover_template += "<ion-popover-view class=\"fit\">";
 	popover_template += "	<ion-content>";
 	popover_template += "		<ion-list>";
-	popover_template += "			<a  class=\"item dark-ink\" ng-href=\"#/e_absensi_diskominfo/about_us\" ng-click=\"popover.hide()\">";
-	popover_template += "			{{ 'About Us' | translate }}";
-	popover_template += "			</a>";
 	popover_template += "			<a  class=\"item dark-ink\" ng-click=\"showLanguageDialog()\" >";
-	popover_template += "			{{ 'Language' | translate }}";
+	popover_template += "			{{ 'Bahasa' | translate }}";
+	popover_template += "			</a>";
+	popover_template += "			<a  class=\"item dark-ink\" ng-href=\"#/e_absensi_diskominfo/about_us\" ng-click=\"popover.hide()\">";
+	popover_template += "			{{ 'Tentang' | translate }}";
+	popover_template += "			</a>";
+	popover_template += "			<a  class=\"item dark-ink\" ng-click=\"exitApp()\">";
+	popover_template += "			{{ 'Keluar' | translate }}";
 	popover_template += "			</a>";
 	popover_template += "		</ion-list>";
 	popover_template += "	</ion-content>";
@@ -426,8 +429,8 @@ $ionicConfig.backButton.text("");
 	controller_by_user();
 })
 
-// TODO: dashboardCtrl --|-- 
-.controller("dashboardCtrl", function($ionicConfig,$scope,$rootScope,$state,$location,$ionicScrollDelegate,$ionicListDelegate,$http,$httpParamSerializer,$stateParams,$timeout,$interval,$ionicLoading,$ionicPopup,$ionicPopover,$ionicActionSheet,$ionicSlideBoxDelegate,$ionicHistory,ionicMaterialInk,ionicMaterialMotion,$window,$ionicModal,base64,md5,$document,$sce,$ionicGesture,$translate){
+// TODO: bantuanCtrl --|-- 
+.controller("bantuanCtrl", function($ionicConfig,$scope,$rootScope,$state,$location,$ionicScrollDelegate,$ionicListDelegate,$http,$httpParamSerializer,$stateParams,$timeout,$interval,$ionicLoading,$ionicPopup,$ionicPopover,$ionicActionSheet,$ionicSlideBoxDelegate,$ionicHistory,ionicMaterialInk,ionicMaterialMotion,$window,$ionicModal,base64,md5,$document,$sce,$ionicGesture,$translate){
 	
 	$rootScope.headerExists = true;
 	$rootScope.ionWidth = $document[0].body.querySelector(".view-container").offsetWidth || 412;
@@ -445,18 +448,18 @@ $ionicConfig.backButton.text("");
 			$scope.scrollTop();
 		});
 	};
-	// TODO: dashboardCtrl --|-- $scope.scrollTop
+	// TODO: bantuanCtrl --|-- $scope.scrollTop
 	$rootScope.scrollTop = function(){
 		$timeout(function(){
 			$ionicScrollDelegate.$getByHandle("top").scrollTop();
 		},100);
 	};
-	// TODO: dashboardCtrl --|-- $scope.openURL
+	// TODO: bantuanCtrl --|-- $scope.openURL
 	// open external browser 
 	$scope.openURL = function($url){
 		window.open($url,"_system","location=yes");
 	};
-	// TODO: dashboardCtrl --|-- $scope.openAppBrowser
+	// TODO: bantuanCtrl --|-- $scope.openAppBrowser
 	// open AppBrowser
 	$scope.openAppBrowser = function($url){
 		var appBrowser = window.open($url,"_blank","hardwareback=Done");
@@ -472,7 +475,7 @@ $ionicConfig.backButton.text("");
 	};
 	
 	
-	// TODO: dashboardCtrl --|-- $scope.openWebView
+	// TODO: bantuanCtrl --|-- $scope.openWebView
 	// open WebView
 	$scope.openWebView = function($url){
 		var appWebview = window.open($url,"_blank","location=no");
@@ -488,7 +491,7 @@ $ionicConfig.backButton.text("");
 	};
 	
 	
-	// TODO: dashboardCtrl --|-- $scope.toggleGroup
+	// TODO: bantuanCtrl --|-- $scope.toggleGroup
 	$scope.toggleGroup = function(group) {
 		if ($scope.isGroupShown(group)) {
 			$scope.shownGroup = null;
@@ -501,7 +504,7 @@ $ionicConfig.backButton.text("");
 		return $scope.shownGroup === group;
 	};
 	
-	// TODO: dashboardCtrl --|-- $scope.redirect
+	// TODO: bantuanCtrl --|-- $scope.redirect
 	// redirect
 	$scope.redirect = function($url){
 		$window.location.href = $url;
@@ -515,14 +518,14 @@ $ionicConfig.backButton.text("");
 	}, 300);
 	// code 
 
-	// TODO: dashboardCtrl --|-- controller_by_user
+	// TODO: bantuanCtrl --|-- controller_by_user
 	// controller by user 
 	function controller_by_user(){
 		try {
 			
 $ionicConfig.backButton.text("");			
 		} catch(e){
-			console.log("%cerror: %cPage: `dashboard` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
+			console.log("%cerror: %cPage: `bantuan` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
 			console.dir(e);
 		}
 	}
@@ -534,8 +537,8 @@ $ionicConfig.backButton.text("");
 	controller_by_user();
 })
 
-// TODO: mapsCtrl --|-- 
-.controller("mapsCtrl", function($ionicConfig,$scope,$rootScope,$state,$location,$ionicScrollDelegate,$ionicListDelegate,$http,$httpParamSerializer,$stateParams,$timeout,$interval,$ionicLoading,$ionicPopup,$ionicPopover,$ionicActionSheet,$ionicSlideBoxDelegate,$ionicHistory,ionicMaterialInk,ionicMaterialMotion,$window,$ionicModal,base64,md5,$document,$sce,$ionicGesture,$translate){
+// TODO: homeCtrl --|-- 
+.controller("homeCtrl", function($ionicConfig,$scope,$rootScope,$state,$location,$ionicScrollDelegate,$ionicListDelegate,$http,$httpParamSerializer,$stateParams,$timeout,$interval,$ionicLoading,$ionicPopup,$ionicPopover,$ionicActionSheet,$ionicSlideBoxDelegate,$ionicHistory,ionicMaterialInk,ionicMaterialMotion,$window,$ionicModal,base64,md5,$document,$sce,$ionicGesture,$translate){
 	
 	$rootScope.headerExists = true;
 	$rootScope.ionWidth = $document[0].body.querySelector(".view-container").offsetWidth || 412;
@@ -553,18 +556,18 @@ $ionicConfig.backButton.text("");
 			$scope.scrollTop();
 		});
 	};
-	// TODO: mapsCtrl --|-- $scope.scrollTop
+	// TODO: homeCtrl --|-- $scope.scrollTop
 	$rootScope.scrollTop = function(){
 		$timeout(function(){
 			$ionicScrollDelegate.$getByHandle("top").scrollTop();
 		},100);
 	};
-	// TODO: mapsCtrl --|-- $scope.openURL
+	// TODO: homeCtrl --|-- $scope.openURL
 	// open external browser 
 	$scope.openURL = function($url){
 		window.open($url,"_system","location=yes");
 	};
-	// TODO: mapsCtrl --|-- $scope.openAppBrowser
+	// TODO: homeCtrl --|-- $scope.openAppBrowser
 	// open AppBrowser
 	$scope.openAppBrowser = function($url){
 		var appBrowser = window.open($url,"_blank","hardwareback=Done");
@@ -580,7 +583,7 @@ $ionicConfig.backButton.text("");
 	};
 	
 	
-	// TODO: mapsCtrl --|-- $scope.openWebView
+	// TODO: homeCtrl --|-- $scope.openWebView
 	// open WebView
 	$scope.openWebView = function($url){
 		var appWebview = window.open($url,"_blank","location=no");
@@ -596,7 +599,7 @@ $ionicConfig.backButton.text("");
 	};
 	
 	
-	// TODO: mapsCtrl --|-- $scope.toggleGroup
+	// TODO: homeCtrl --|-- $scope.toggleGroup
 	$scope.toggleGroup = function(group) {
 		if ($scope.isGroupShown(group)) {
 			$scope.shownGroup = null;
@@ -609,7 +612,7 @@ $ionicConfig.backButton.text("");
 		return $scope.shownGroup === group;
 	};
 	
-	// TODO: mapsCtrl --|-- $scope.redirect
+	// TODO: homeCtrl --|-- $scope.redirect
 	// redirect
 	$scope.redirect = function($url){
 		$window.location.href = $url;
@@ -623,14 +626,14 @@ $ionicConfig.backButton.text("");
 	}, 300);
 	// code 
 
-	// TODO: mapsCtrl --|-- controller_by_user
+	// TODO: homeCtrl --|-- controller_by_user
 	// controller by user 
 	function controller_by_user(){
 		try {
 			
 $ionicConfig.backButton.text("");			
 		} catch(e){
-			console.log("%cerror: %cPage: `maps` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
+			console.log("%cerror: %cPage: `home` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
 			console.dir(e);
 		}
 	}

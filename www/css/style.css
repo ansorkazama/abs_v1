@@ -215,14 +215,8 @@ ul.rating li i{color:#FFCC00}
 .menu .bar.bar-header.expanded img{margin:auto;left:16px;right:16px;}
 
 /** option page **/
-#page-dashboard{background: url("../data/images/background/bg8.jpg") no-repeat left top fixed;background-size: cover;width:100%;height:100%;background-repeat:no-repeat;}
-/** page dashboard **/
-
-.dashboard-panel .row .col-33 {text-decoration-line: unset;text-align: center;padding: 22px 20px 10px 20px;border:0;}
-.dashboard-panel .row .col-33 i {font-size: 28px;margin-bottom: 2px;}
-.dashboard-panel a:link, .dashboard-panel a:visited{text-decoration: none;}
-.dashboard-panel .row .col-33 p {font-size: 12px;font-weight:500;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}             
-            
+#page-bantuan{background: url("../data/images/background/bg3.jpg") no-repeat left top fixed;background-size: cover;width:100%;height:100%;background-repeat:no-repeat;}
+#page-home{background: url("../data/images/background/bg18.jpg") no-repeat left top fixed;background-size: cover;width:100%;height:100%;background-repeat:no-repeat;}
 /** page slide_tab_menu **/
 
 /** custom css **/

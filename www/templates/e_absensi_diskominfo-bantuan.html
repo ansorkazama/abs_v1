@@ -1,0 +1,12 @@
+	<ion-view view-title="Bantuan" hide-nav-bar="false" >
+		<!-- content -->
+		<ion-content delegate-handle="top"  scroll="true"   id="page-bantuan" class="page-bantuan">
+		<ion-list class="card list">
+<div><ion-item class="item item-colorful noborder" ng-click="toggleGroup(0)" ng-class="{active: isGroupShown(0)}"><i class="icon" ng-class="isGroupShown(0) ? 'ion-minus' : 'ion-plus'"></i> <span>Bagaimana Cara login?</span></ion-item> <ion-item class="item item-text-wrap" ng-show="isGroupShown(0)">Masukkan PIN anda berupa 6 digit, lalu pastikan lokasi posisi anda di lingkungan Diskominfo Provsu atau Kantor Gubernur Provsu.</ion-item></div>
+<div><ion-item class="item item-colorful noborder" ng-click="toggleGroup(1)" ng-class="{active: isGroupShown(1)}"><i class="icon" ng-class="isGroupShown(1) ? 'ion-minus' : 'ion-plus'"></i> <span>Bagaimana cara absensi datang <br />dan pulang?</span></ion-item> <ion-item class="item item-text-wrap" ng-show="isGroupShown(1)">Tekan tombol "refresh" hingga muncul tombol "Ambil Absen". Lalu Tekan tombol "Absen".</ion-item></div>
+<div><ion-item class="item item-colorful noborder" ng-click="toggleGroup(2)" ng-class="{active: isGroupShown(2)}"><i class="icon" ng-class="isGroupShown(2) ? 'ion-minus' : 'ion-plus'"></i> <span>Tombol&nbsp;</span>Ambil Absen tidak muncul,<br />bagaimana solusinya?</ion-item> <ion-item class="item item-text-wrap" ng-show="isGroupShown(2)">Pastikan Anda berada di Lingkungan Diskominfo Provsu atau Kantor Gubernur Provsu.</ion-item></div>
+<div><ion-item class="item item-colorful noborder" ng-click="toggleGroup(3)" ng-class="{active: isGroupShown(3)}"><i class="icon" ng-class="isGroupShown(3) ? 'ion-minus' : 'ion-plus'"></i> <span>Map menunjukkan pesan&nbsp;<br /></span>'Geolocation Service Error'<br />dan&nbsp;tidak menunjukkan posisi saya,<br />Bagaimana solusinya?</ion-item> <ion-item class="item item-text-wrap" ng-show="isGroupShown(3)">Pastikan GPS di Perangkat Android Anda diaktifkan lalu tekan tombol "refresh".</ion-item></div>
+</ion-list>
+		</ion-content>
+		<!-- ./content -->
+	</ion-view>
