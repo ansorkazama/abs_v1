@@ -24,7 +24,7 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 			if($ionicHistory.backView()){
 				$ionicHistory.goBack();
 			}else{
-				$state.go("e_absensi_diskominfo.home");
+				$state.go("e_absensi_diskominfo.dashboard");
 			}
 			e.preventDefault();
 			return false;
@@ -172,13 +172,13 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 		}
 	})
 
-	.state("e_absensi_diskominfo.home", {
-		url: "/home",
+	.state("e_absensi_diskominfo.dashboard", {
+		url: "/dashboard",
 		cache:false,
 		views: {
 			"e_absensi_diskominfo-side_menus" : {
-						templateUrl:"templates/e_absensi_diskominfo-home.html",
-						controller: "homeCtrl"
+						templateUrl:"templates/e_absensi_diskominfo-dashboard.html",
+						controller: "dashboardCtrl"
 					},
 			"fabButtonUp" : {
 						template: '',
@@ -186,5 +186,5 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 		}
 	})
 
-	$urlRouterProvider.otherwise("/e_absensi_diskominfo/home");
+	$urlRouterProvider.otherwise("/e_absensi_diskominfo/dashboard");
 });

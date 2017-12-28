@@ -72,9 +72,9 @@ angular.module("e_absensi_diskominfo.controllers", [])
 					for(var e = 0; e < keys.length ; e++) {
 						localforage.setItem(keys[e],[]);
 					}
-					$state.go("e_absensi_diskominfo.home");
+					$state.go("e_absensi_diskominfo.dashboard");
 				}).catch(function(err) {
-					$state.go("e_absensi_diskominfo.home");
+					$state.go("e_absensi_diskominfo.dashboard");
 				});
 			}
 			$rootScope.closeMenuPopover();
@@ -537,8 +537,8 @@ $ionicConfig.backButton.text("");
 	controller_by_user();
 })
 
-// TODO: homeCtrl --|-- 
-.controller("homeCtrl", function($ionicConfig,$scope,$rootScope,$state,$location,$ionicScrollDelegate,$ionicListDelegate,$http,$httpParamSerializer,$stateParams,$timeout,$interval,$ionicLoading,$ionicPopup,$ionicPopover,$ionicActionSheet,$ionicSlideBoxDelegate,$ionicHistory,ionicMaterialInk,ionicMaterialMotion,$window,$ionicModal,base64,md5,$document,$sce,$ionicGesture,$translate){
+// TODO: dashboardCtrl --|-- 
+.controller("dashboardCtrl", function($ionicConfig,$scope,$rootScope,$state,$location,$ionicScrollDelegate,$ionicListDelegate,$http,$httpParamSerializer,$stateParams,$timeout,$interval,$ionicLoading,$ionicPopup,$ionicPopover,$ionicActionSheet,$ionicSlideBoxDelegate,$ionicHistory,ionicMaterialInk,ionicMaterialMotion,$window,$ionicModal,base64,md5,$document,$sce,$ionicGesture,$translate){
 	
 	$rootScope.headerExists = true;
 	$rootScope.ionWidth = $document[0].body.querySelector(".view-container").offsetWidth || 412;
@@ -556,18 +556,18 @@ $ionicConfig.backButton.text("");
 			$scope.scrollTop();
 		});
 	};
-	// TODO: homeCtrl --|-- $scope.scrollTop
+	// TODO: dashboardCtrl --|-- $scope.scrollTop
 	$rootScope.scrollTop = function(){
 		$timeout(function(){
 			$ionicScrollDelegate.$getByHandle("top").scrollTop();
 		},100);
 	};
-	// TODO: homeCtrl --|-- $scope.openURL
+	// TODO: dashboardCtrl --|-- $scope.openURL
 	// open external browser 
 	$scope.openURL = function($url){
 		window.open($url,"_system","location=yes");
 	};
-	// TODO: homeCtrl --|-- $scope.openAppBrowser
+	// TODO: dashboardCtrl --|-- $scope.openAppBrowser
 	// open AppBrowser
 	$scope.openAppBrowser = function($url){
 		var appBrowser = window.open($url,"_blank","hardwareback=Done");
@@ -583,7 +583,7 @@ $ionicConfig.backButton.text("");
 	};
 	
 	
-	// TODO: homeCtrl --|-- $scope.openWebView
+	// TODO: dashboardCtrl --|-- $scope.openWebView
 	// open WebView
 	$scope.openWebView = function($url){
 		var appWebview = window.open($url,"_blank","location=no");
@@ -599,7 +599,7 @@ $ionicConfig.backButton.text("");
 	};
 	
 	
-	// TODO: homeCtrl --|-- $scope.toggleGroup
+	// TODO: dashboardCtrl --|-- $scope.toggleGroup
 	$scope.toggleGroup = function(group) {
 		if ($scope.isGroupShown(group)) {
 			$scope.shownGroup = null;
@@ -612,7 +612,7 @@ $ionicConfig.backButton.text("");
 		return $scope.shownGroup === group;
 	};
 	
-	// TODO: homeCtrl --|-- $scope.redirect
+	// TODO: dashboardCtrl --|-- $scope.redirect
 	// redirect
 	$scope.redirect = function($url){
 		$window.location.href = $url;
@@ -626,14 +626,14 @@ $ionicConfig.backButton.text("");
 	}, 300);
 	// code 
 
-	// TODO: homeCtrl --|-- controller_by_user
+	// TODO: dashboardCtrl --|-- controller_by_user
 	// controller by user 
 	function controller_by_user(){
 		try {
 			
 $ionicConfig.backButton.text("");			
 		} catch(e){
-			console.log("%cerror: %cPage: `home` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
+			console.log("%cerror: %cPage: `dashboard` and field: `Custom Controller`","color:blue;font-size:18px","color:red;font-size:18px");
 			console.dir(e);
 		}
 	}
