@@ -19,6 +19,22 @@ angular.module("e_absensi_diskominfo", ["ngCordova","ionic","ionMdInput","ionic-
 			}
 
 
+			//required: cordova plugin add onesignal-cordova-plugin --save
+			if(window.plugins && window.plugins.OneSignal){
+				window.plugins.OneSignal.enableNotificationsWhenActive(true);
+				var notificationOpenedCallback = function(jsonData){
+					try {
+						$timeout(function(){
+							$window.location = "#/e_absensi_diskominfo/" + jsonData.notification.payload.additionalData.page ;
+						},200);
+					} catch(e){
+						console.log("onesignal:" + e);
+					}
+				}
+				window.plugins.OneSignal.startInit("61bbb35d-e313-4726-a6b1-4470ed811726").handleNotificationOpened(notificationOpenedCallback).endInit();
+			}    
+
+
 		});
 		$ionicPlatform.registerBackButtonAction(function (e){
 			if($ionicHistory.backView()){

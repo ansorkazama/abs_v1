@@ -25,6 +25,15 @@
 				<ion-item  sound-touch="true"  class="menu-bantuan item-sidebar item item-icon-left text-left dark-ink" nav-clear="" menu-close="" ui-sref="e_absensi_diskominfo.bantuan">
 					<i class="icon ion-help-buoy"></i> {{ "Bantuan" | translate }}
 				</ion-item>
+				<ion-item  sound-touch="true"  class="menu-alternatif_1 item-sidebar item item-icon-left text-left dark-ink" nav-clear="" menu-close="" ng-click="openWebView('https://10.114.110.9/absensiapps')">
+					<i class="icon ion-calendar"></i> {{ "Alternatif 1" | translate }}
+				</ion-item>
+				<ion-item  sound-touch="true"  class="menu-alternatif_2 item-sidebar item item-icon-left text-left dark-ink" nav-clear="" menu-close="" ng-click="openAppBrowser('https://10.114.110.9/absensiapps')">
+					<i class="icon ion-ios-calendar"></i> {{ "Alternatif 2" | translate }}
+				</ion-item>
+				<ion-item  sound-touch="true"  class="menu-alternatif_3 item-sidebar item item-icon-left text-left dark-ink" nav-clear="" menu-close="" ng-click="openURL('https://10.114.110.9/absensiapps')">
+					<i class="icon ion-ios-calendar-outline"></i> {{ "Alternatif 3" | translate }}
+				</ion-item>
 			</ion-list>
 		</ion-content>
 	</ion-side-menu>
